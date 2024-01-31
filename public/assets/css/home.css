@@ -1,0 +1,137 @@
+body {
+    overflow-x: hidden;
+    min-width: 100%;
+}
+
+.btn-custom {
+    background-color: #D1E11B;
+    color: #fff;
+    /* Color del texto */
+}
+
+/* Cambio de color al pasar el ratón sobre el botón */
+.btn-custom:hover {
+    background-color: #A8C916;
+}
+
+.yellow {
+    color: #D1E11B;
+}
+
+.yellow:hover {
+    color: #A8C916;
+}
+
+.smallText {
+    size: 5mm;
+}
+
+.mediumText {
+    size: 3em;
+}
+
+#carouselExampleSlidesOnly {
+    height: 50vh;
+    /* Altura del carrusel: 50% de la altura de la ventana */
+}
+
+.carrusel {
+    background-image: url('../../media/carrusel1.jpg');
+    /* Reemplaza 'tu-imagen.jpg' con la ruta de tu imagen */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 500px;
+    /* Ajusta la altura según tus necesidades */
+    color: #fff;
+    /* Color del texto sobre la imagen */
+    display: flex;
+}
+
+.busquedaPan {
+    background-image: url('../../media/madrid.jpg');
+    /* Reemplaza 'tu-imagen.jpg' con la ruta de tu imagen */
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 200px;
+    /* Ajusta la altura según tus necesidades */
+    color: #fff;
+    /* Color del texto sobre la imagen */
+    display: flex;
+}
+
+.link-custom {
+    color: rgb(0, 0, 0);
+}
+
+.link-custom:hover {
+    color: rgb(39, 35, 35);
+}
+
+.link-active {
+    color: rgb(101, 101, 101);
+}
+
+.link-active:hover {
+    color: rgb(108, 103, 103);
+}
+
+.bg-routing {
+    background-color: rgb(184, 184, 184);
+}
+
+.custom-height {
+    height: 300px;
+}
+
+#map,
+#map-items {
+    height: 200px;
+    width: 100%;
+}
+
+#tablaContainer {
+    max-height: 300px;
+    /* Altura máxima del contenedor */
+    overflow-y: auto;
+    /* Agregar barra de desplazamiento vertical si es necesario */
+}
+
+#sortable1,
+#sortable2 {
+    border: 1px solid #eee;
+    width: 142px;
+    min-height: 200px;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+    float: left;
+    margin-right: 10px;
+    width: 100%;
+}
+
+#sortable1 li,
+#sortable2 li {
+    margin: 0 5px 5px 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+}
+
+.box-1 {
+    border-style: solid;
+    border-width: thin;
+    border-right: 0;
+}
+
+.box-2 {
+    border-style: solid;
+    border-width: thin;
+}
+
+.box-container {
+    max-height: 200px;
+    overflow-x: hidden;
+}

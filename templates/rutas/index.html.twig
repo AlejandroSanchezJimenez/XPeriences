@@ -1,0 +1,204 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<section class="bg-routing col-12 mb-5 miguitas">
+		<div class="py-3 ml-5 mr-5">
+			<a class="link-custom" href="/">
+				<h5>Inicio</a>
+				>
+				<a class="link-active" href="">Tours en Madrid</h5>
+			</a>
+		</div>
+	</section>
+	<section>
+		<div class="row m-5">
+			<div class="col-2">
+				<div class="col-12 bg-routing mb-3 p-4 h-auto">
+					<p class="font-weight-bold">Disponible 15 resultados en Málaga, España</p>
+					<input class="form-control mb-3" placeholder="Busque por ciudad">
+					<input class="form-control mb-3" placeholder="Seleccione las fechas">
+
+					<p class="font-weight-bold mt-3">Mantenimiento</p>
+
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+						<label class="form-check-label" for="flexSwitchCheckDefault">Sin guía</label>
+					</div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+						<label class="form-check-label" for="flexSwitchCheckChecked">Participantes insuficientes</label>
+					</div>
+
+					<div class="row mt-3">
+						<h1 class="col-7"></h1>
+						<a href="" class="col-5 small">Limpiar todo</a>
+					</div>
+				</div>
+				<button class="btn btn-custom col-12" data-bs-toggle="modal" href="#newRouteModal">Nueva ruta</button>
+			</div>
+			<div class="col-1 bg-active custom-height"></div>
+			<div class="col-9 bg-active h-auto ">
+				<div class="row bg-routing h-auto mb-3 justify-content-center p-4 align-items-center">
+					<div class="col-3 border-1">
+						<img src="{{ asset('media/coruña.jpeg') }}" class="rounded float-start" width="70%" height="70%" alt="Tour Image">
+					</div>
+					<div class="row col-8 ml-5 d-flex align-items-center">
+						<h2 class="col-8 mb-5">Tour por el muelle</h2>
+						<h6 class="col-4 mb-5">Apuntados: 5</h6>
+						<button class="btn btn-custom col-5 m-1 h-25">Asignar guía</button>
+						<button class="btn btn-danger col-5 m-1 h-25">Cancelar ruta</button>
+					</div>
+				</div>
+
+				<div class="row bg-routing h-auto mb-3 justify-content-center p-4 align-items-center">
+					<div class="col-3 border-1">
+						<img src="{{ asset('media/coruña.jpeg') }}" class="rounded float-start" width="70%" height="70%" alt="Tour Image">
+					</div>
+					<div class="row col-8 ml-5 d-flex align-items-center">
+						<h2 class="col-8 mb-5">Tour por el muelle</h2>
+						<h6 class="col-4 mb-5">Apuntados: 5</h6>
+						<button class="btn btn-custom col-5 m-1 h-25">Asignar guía</button>
+						<button class="btn btn-danger col-5 m-1 h-25">Cancelar ruta</button>
+					</div>
+				</div>
+
+				<div class="row bg-routing h-auto mb-3 justify-content-center p-4 align-items-center">
+					<div class="col-3 border-1">
+						<img src="{{ asset('media/coruña.jpeg') }}" class="rounded float-start" width="70%" height="70%" alt="Tour Image">
+					</div>
+					<div class="row col-8 ml-5 d-flex align-items-center">
+						<h2 class="col-8 mb-5">Tour por el muelle</h2>
+						<h6 class="col-4 mb-5">Apuntados: 5</h6>
+						<button class="btn btn-custom col-5 m-1 h-25">Asignar guía</button>
+						<button class="btn btn-danger col-5 m-1 h-25">Cancelar ruta</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="modal fade" id="newRouteModal" aria-hidden="true" aria-labelledby="newRouteModalLabel" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Crea una nueva ruta</h5>
+				</div>
+				<div class="modal-body">
+					<form method="post">
+						<div class="row">
+							<div class="col-6">
+								<div class="mb-3">
+									<input type="text" class="form-control" id="titulo" name="titulo" required placeholder="Título de la ruta">
+								</div>
+								<div class="mb-3">
+									<textarea class="form-control" id="desc" name="desc" required placeholder="Descripción"></textarea>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="mb-3">
+									<input type="number" min="1" class="form-control" id="aforo" name="aforo" required placeholder="Aforo">
+								</div>
+								<input type="file" class="form-control" id="fileInput" name="fileInput" required placeholder="Selecciona un archivo">
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-6">
+								<input type="date" class="form-control" id="fec_ini" name="fec_ini" required placeholder="Fecha de inicio">
+							</div>
+							<div class="col-6">
+								<input type="date" class="form-control" id="fec_fin" name="fec_fin" required placeholder="Fecha de fin">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-custom col-3 fs-6" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
+						Añadir items
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="newRouteModal2" aria-hidden="true" aria-labelledby="newRouteModal2Label" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Añade los items de la ruta</h5>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-6 box-1">
+							<div class="box-container">
+								<ul id="sortable1" class="connectedSortable"></ul>
+							</div>
+						</div>
+						<div class="col-6 box-2">
+							<div class="box-container">
+								<ul id="sortable2" class="connectedSortable"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div id="map-items" class="col-12"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary col-3 fs-6" data-bs-target="#newRouteModal" data-bs-toggle="modal" data-bs-dismiss="modal">
+						Volver
+					</button>
+					<button class="btn btn-custom col-3 fs-6" data-bs-target="#newItemModal" data-bs-toggle="modal" data-bs-dismiss="modal">
+						Crear nuevos items
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="newItemModal" aria-hidden="true" aria-labelledby="newRouteModal3Label" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Crear nuevo item</h5>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<form method="post" id="itemForm" class="col-6">
+							<div class="row">
+								<div class="col-12">
+									<div class="mb-3">
+										<input type="text" class="form-control" id="tituloItem" name="titItem" required placeholder="Título de la ruta">
+									</div>
+									<div class="mb-3">
+										<textarea class="form-control" id="descItem" name="desc" required placeholder="Descripción"></textarea>
+									</div>
+								</div>
+								<div class="col-12">
+									<input type="file" onchange="encodeImageFileAsURL(this)" class="form-control" id="fotoItem" name="fileInput" required placeholder="Selecciona un archivo">
+								</div>
+								<div class="col-6 mt-3">
+									<input type="text" class="form-control" id="lat" name="fileInput" required placeholder="Selecciona la latitud">
+								</div>
+								<div class="col-6 mt-3">
+									<input type="text" class="form-control" id="long" name="fileInput" required placeholder="Selecciona la longitud">
+								</div>
+							</div>
+						</form>
+
+						<div class="col-6 justify-content-center">
+							<div id="map" class="col-12 mb-3"></div>
+							<button id="findItem" class="btn btn-custom col-5 mx-2">Localizar item</button>
+							<button id="newItem" form="itemForm" class="btn btn-custom col-5 mx-2">Crear nuevo item</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary col-3 fs-6" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
+						Volver
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div></div>{% block javascripts %}
+{{parent()}}{% endblock %}{% endblock %}

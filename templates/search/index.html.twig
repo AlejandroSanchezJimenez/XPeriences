@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<section class="">
+		<header class="busquedaPan bg-dark text-white text-center py-5">
+			<div class="container">
+				<h1 class="display-4">Tours gratis en Madrid</h1>
+				<p class="lead">Mostrando 15 tours</p>
+			</div>
+		</header>
+	</section>
+	<section class="mb-5 miguitas">
+		<div class="row container">
+			<div class="col-12 bg-light py-3">
+				<a href=""><h5>Inicio</a> > <a href="">Tours en Madrid</h5></a>
+			</div>
+		</div>
+	</section>
+	{% block javascripts %}
+		{{parent()}}
+	{% endblock %}
+{% endblock %}
