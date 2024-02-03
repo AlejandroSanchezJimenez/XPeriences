@@ -4,18 +4,56 @@
 	<section class="">
 		<header class="busquedaPan bg-dark text-white text-center py-5">
 			<div class="container">
-				<h1 class="display-4">Tours gratis en Madrid</h1>
-				<p class="lead">Mostrando 15 tours</p>
+				<h1 class="display-2" id="titPage">Tours gratis en </h1>
 			</div>
 		</header>
 	</section>
-	<section class="mb-5 miguitas">
-		<div class="row container">
-			<div class="col-12 bg-light py-3">
-				<a href=""><h5>Inicio</a> > <a href="">Tours en Madrid</h5></a>
-			</div>
+	<section class="bg-routing col-12 mb-5 miguitas">
+		<div class="py-3 ml-5 mr-5">
+			<a class="link-custom" href="/">
+				<h5>Inicio</a>
+				>
+				<a class="link-active" id="link-tit" href="">Tours en
+				</h5>
+			</a>
 		</div>
 	</section>
+	<div class="row m-5">
+		<div class="col-2">
+			<div class="col-12 bg-routing mb-3 p-4 h-auto">
+				<form id="filtros">
+					<p class="font-weight-bold" id="tourCount">Disponible
+												resultados</p>
+					<input class="form-control mb-3" list="loc-datalist" id="locationSearcher" placeholder="Busque por ciudad">
+					<input type="date" class="form-control mb-3" id="dateSearcher" placeholder="Seleccione las fechas">
+
+					<div class="row mt-3">
+						<h1 class="col-7"></h1>
+						<a href="" id="clean" class="col-5 small">Limpiar todo</a>
+					</div>
+					<datalist id="loc-datalist"></datalist>
+				</form>
+			</div>
+		</div>
+		<div class="col-1 bg-active custom-height"></div>
+
+		<div class="col-9 bg-active h-auto" id="zona-tours">
+			<div id="empty" style="display: none" class="row bg-routing mb-3 justify-content-center align-items-center tours p-1">
+				<img id="foto" src="{{asset('media/coliseo.png')}}" width="20%" height="20%" alt="Tour Image">
+				<h5 class="col-12 text-center">Tu búsqueda está en ruinas</h5>
+			</div>
+			<nav id="pagination" aria-label="Page navigation example" class="d-flex justify-content-center align-content-center">
+				<ul class="pagination" style="display: none" id="listaPage">
+					<li class="page-item page-ext" id="previous" onclick="changePage(prev)">
+						<a class="page-link" href="#">Anterior</a>
+					</li>
+					<li class="page-item page-ext" id="next" onclick="changePage(next)">
+						<a class="page-link" href="#">Siguiente</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
 	{% block javascripts %}
 		{{parent()}}
 	{% endblock %}

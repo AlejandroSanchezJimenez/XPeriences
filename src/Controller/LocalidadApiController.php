@@ -15,14 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class LocalidadApiController extends AbstractController
 {
     #[Route('/localidad/api', name: 'app_localidad_api')]
-    public function getAllLocalidades(ProvinciaRepository $locRepository): JsonResponse
+    public function getAllLocalidades(LocalidadRepository $locRepository): JsonResponse
     {
         $localidades = $locRepository->findAll();
         $data = [];
 
         foreach ($localidades as $localidad) {
             $data[] = [
-                'nombre' => $localidad->getCodProv()
+                'id' => $localidad->getId(),
+                'nombre' => $localidad->getNombre()
             ];
         }
 

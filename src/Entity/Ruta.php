@@ -16,7 +16,7 @@ class Ruta
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 100)]
     private ?string $Titulo = null;
 
     #[ORM\Column(length: 200)]
@@ -46,6 +46,9 @@ class Ruta
     #[ORM\ManyToOne(inversedBy: 'rutas')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Localidad $Localidad = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $PuntoInicio = null;
 
     public function __construct()
     {
@@ -210,6 +213,18 @@ class Ruta
     public function setLocalidad(?Localidad $Localidad): static
     {
         $this->Localidad = $Localidad;
+
+        return $this;
+    }
+
+    public function getPuntoInicio(): ?string
+    {
+        return $this->PuntoInicio;
+    }
+
+    public function setPuntoInicio(string $PuntoInicio): static
+    {
+        $this->PuntoInicio = $PuntoInicio;
 
         return $this;
     }

@@ -27,8 +27,8 @@ class Tour
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $Fecha = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $Hora = null;
+    #[ORM\Column(length: 50)]
+    private ?string $Hora = null;
 
     #[ORM\OneToMany(mappedBy: 'Tour', targetEntity: Reserva::class, orphanRemoval: true)]
     private Collection $reservas;
@@ -86,12 +86,12 @@ class Tour
         return $this;
     }
 
-    public function getHora(): ?\DateTimeInterface
+    public function getHora(): ?string
     {
         return $this->Hora;
     }
 
-    public function setHora(\DateTimeInterface $Hora): static
+    public function setHora(string $Hora): static
     {
         $this->Hora = $Hora;
 

@@ -49,9 +49,9 @@ body {
 }
 
 .busquedaPan {
-    background-image: url('../../media/madrid.jpg');
+    background-image: url('../../media/jaenmisterioso.jpg');
     /* Reemplaza 'tu-imagen.jpg' con la ruta de tu imagen */
-    background-size: contain;
+    background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
@@ -86,8 +86,14 @@ body {
 }
 
 #map,
-#map-items {
+#map-items,
+#map-encounter-pt {
     height: 200px;
+    width: 100%;
+}
+
+#map-inicio {
+    height: 100%;
     width: 100%;
 }
 
@@ -134,4 +140,64 @@ body {
 .box-container {
     max-height: 200px;
     overflow-x: hidden;
+}
+
+.custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: 1px solid lightgray;
+    padding: 8px;
+    border-radius: 4px;
+    color: dimgray;
+    cursor: pointer;
+}
+
+.custom-select:focus {
+    border-color: lightgrey;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.outline-custom {
+    border: 1px solid lightgrey;
+    color: black;
+}
+
+.outline-custom:hover {
+    border: lightgrey;
+    background-color: #A8C916;
+}
+
+.outline-custom input[type="checkbox"]:checked {
+    background-color: #A8C916;
+}
+
+.custom-menu-item {
+    /* Estilos para cada elemento li del autocompletado */
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.custom-menu-item:last-child {
+    /* Estilos para el último elemento li del autocompletado */
+    border-bottom: none;
+}
+
+.custom-menu-item:hover {
+    /* Estilos para el elemento li del autocompletado al pasar el ratón sobre él */
+    background-color: #ddd;
+}
+
+#calendar {
+    width: 100%;
+    height: 600px; /* ajusta la altura según tus necesidades */
+}
+
+footer a {
+    color: #ffffff; /* Color del texto de los enlaces */
+    text-decoration: none; /* Elimina el subrayado predeterminado */
 }

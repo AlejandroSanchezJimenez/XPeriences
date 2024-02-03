@@ -21,20 +21,18 @@ class TourRepository extends ServiceEntityRepository
         parent::__construct($registry, Tour::class);
     }
 
-//    /**
-//     * @return Tour[] Returns an array of Tour objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Tour[] Returns an array of Tour objects
+    */
+   public function findOrderByFecha(): array
+   {
+       return $this->createQueryBuilder('t')
+       ->where('t.Fecha > :currentDate')
+       ->setParameter('currentDate', new \DateTime())
+       ->orderBy('t.Fecha', 'ASC') // Puedes cambiar 'ASC' a 'DESC' según tus necesidades
+       ->getQuery()
+       ->getResult();
+   }
 
 //    public function findOneBySomeField($value): ?Tour
 //    {

@@ -49,7 +49,8 @@ class ItemApiController extends AbstractController
             $data[] = [
                 'titulo' => $item->getTitulo(),
                 'latitud' => $latitud,
-                'longitud' => $longitud
+                'longitud' => $longitud,
+                'id' => $item->getId()
             ];
         }
 

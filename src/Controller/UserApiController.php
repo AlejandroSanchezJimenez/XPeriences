@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -48,6 +47,24 @@ class UserApiController extends AbstractController
         $this->tokenStorage->setToken($token);
 
         return $this->json(['message' => 'Usuario creado'], 201);
+    }
+
+    #[Route('/user/api/guia', name: 'app_user_api_getOne', methods: ['GET'])]
+    public function getUsersByRol(UserRepository $userRepository): JsonResponse
+    {
+        $usuarios = $userRepository->findAll();
+
+        $usuariosGuia = array_filter($usuarios, function ($usuario) {
+            return in_array('ROLE_GUIA', $usuario->getRoles());
+        });
+        foreach ($usuariosGuia as $user) {
+            $data[] = [
+                'id' => $user->getId(),
+                'email' => $user->getEmail()
+            ];
+        }
+
+        return $this->json($data, 200);
     }
 
 }

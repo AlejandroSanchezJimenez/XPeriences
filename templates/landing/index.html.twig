@@ -6,9 +6,9 @@
 {% block body %}
 	{% if error %}
 		<div class="custom-error-message alert alert-danger" style="color: red;">
-        <p>{{ 'Usuario incorrecto, inténtelo de nuevo'|trans }}</p>
-        {# <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p> #}
-    </div>
+			<p>{{ 'Usuario incorrecto, inténtelo de nuevo'|trans }}</p>
+			{# <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p> #}
+		</div>
 	{% endif %}
 	<section class="mb-5">
 		<div class="carrusel row d-flex align-items-center justify-content-center">
@@ -17,13 +17,15 @@
 				<h4>Todo sin costo. Únete a nosotros en la nueva era de los freetours</h4>
 			</div>
 			<form class="d-flex flex-column">
-				<div class="row justify-content-center">
-					<input type="text" class="form-control col-7 mb-2 mr-4" id="ciudad" placeholder="¿Qué sitio quieres descubrir?">
-					<button type="submit" class="btn btn-custom align-self-end col-4 mb-2">¡A viajar!</button>
+				<div class="row justify-content-center ui-widget">
+					<input list="loc-datalist" type="text" class="form-control col-7 mb-2 mr-4" id="ciudad" required placeholder="¿Qué sitio quieres descubrir?">
+					<button type="submit" id="searchBtn-Lnd" class="btn btn-custom align-self-end col-4 mb-2">¡A viajar!</button>
 				</div>
 				<div class="row">
-					<input type="text" class="form-control col-12 " id="fechas" placeholder="Selecciona la fecha de la ruta">
+					<input type="date" class="form-control col-12 " id="fecha" placeholder="Selecciona la fecha de la ruta">
 				</div>
+				<datalist id="loc-datalist">
+				</datalist>
 			</form>
 		</div>
 	</section>

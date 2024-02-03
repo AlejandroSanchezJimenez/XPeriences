@@ -6,7 +6,7 @@
 			<a class="link-custom" href="/">
 				<h5>Inicio</a>
 				>
-				<a class="link-active" href="">Tours en Madrid</h5>
+				<a class="link-active" href="">Tours</h5>
 			</a>
 		</div>
 	</section>
@@ -14,65 +14,51 @@
 		<div class="row m-5">
 			<div class="col-2">
 				<div class="col-12 bg-routing mb-3 p-4 h-auto">
-					<p class="font-weight-bold">Disponible 15 resultados en Málaga, España</p>
-					<input class="form-control mb-3" placeholder="Busque por ciudad">
-					<input class="form-control mb-3" placeholder="Seleccione las fechas">
+					<form id="filtros">
+						<p class="font-weight-bold" id="tourCount">Disponible
+							{{tours|length}}
+							resultados</p>
+						<input class="form-control mb-3" list="loc-datalist" id="locationSearcher" placeholder="Busque por ciudad">
+						<input type="date" class="form-control mb-3" id="dateSearcher" placeholder="Seleccione las fechas">
 
-					<p class="font-weight-bold mt-3">Mantenimiento</p>
+						<p class="font-weight-bold mt-3">Mantenimiento</p>
 
-					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-						<label class="form-check-label" for="flexSwitchCheckDefault">Sin guía</label>
-					</div>
-					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-						<label class="form-check-label" for="flexSwitchCheckChecked">Participantes insuficientes</label>
-					</div>
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+							<label class="form-check-label" for="flexSwitchCheckDefault">No repetir ruta</label>
+						</div>
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+							<label class="form-check-label" for="flexSwitchCheckChecked">Participantes insuficientes</label>
+						</div>
 
-					<div class="row mt-3">
-						<h1 class="col-7"></h1>
-						<a href="" class="col-5 small">Limpiar todo</a>
-					</div>
+						<div class="row mt-3">
+							<h1 class="col-7"></h1>
+							<a href="" id="clean" class="col-5 small">Limpiar todo</a>
+						</div>
+						<datalist id="loc-datalist"></datalist>
+					</form>
 				</div>
 				<button class="btn btn-custom col-12" data-bs-toggle="modal" href="#newRouteModal">Nueva ruta</button>
+				<button class="btn btn-custom col-12 mt-3" data-bs-toggle="modal" href="#calendarModal">Calendario</button>
 			</div>
 			<div class="col-1 bg-active custom-height"></div>
-			<div class="col-9 bg-active h-auto ">
-				<div class="row bg-routing h-auto mb-3 justify-content-center p-4 align-items-center">
-					<div class="col-3 border-1">
-						<img src="{{ asset('media/coruña.jpeg') }}" class="rounded float-start" width="70%" height="70%" alt="Tour Image">
-					</div>
-					<div class="row col-8 ml-5 d-flex align-items-center">
-						<h2 class="col-8 mb-5">Tour por el muelle</h2>
-						<h6 class="col-4 mb-5">Apuntados: 5</h6>
-						<button class="btn btn-custom col-5 m-1 h-25">Asignar guía</button>
-						<button class="btn btn-danger col-5 m-1 h-25">Cancelar ruta</button>
-					</div>
-				</div>
 
-				<div class="row bg-routing h-auto mb-3 justify-content-center p-4 align-items-center">
-					<div class="col-3 border-1">
-						<img src="{{ asset('media/coruña.jpeg') }}" class="rounded float-start" width="70%" height="70%" alt="Tour Image">
-					</div>
-					<div class="row col-8 ml-5 d-flex align-items-center">
-						<h2 class="col-8 mb-5">Tour por el muelle</h2>
-						<h6 class="col-4 mb-5">Apuntados: 5</h6>
-						<button class="btn btn-custom col-5 m-1 h-25">Asignar guía</button>
-						<button class="btn btn-danger col-5 m-1 h-25">Cancelar ruta</button>
-					</div>
+			<div class="col-9 bg-active h-auto" id="zona-tours">
+				<div id="empty" style="display: none" class="row bg-routing mb-3 justify-content-center align-items-center tours p-1">
+					<img id="foto" src="{{asset('media/coliseo.png')}}" width="20%" height="20%" alt="Tour Image">
+					<h5 class="col-12 text-center">Tu búsqueda está en ruinas</h5>
 				</div>
-
-				<div class="row bg-routing h-auto mb-3 justify-content-center p-4 align-items-center">
-					<div class="col-3 border-1">
-						<img src="{{ asset('media/coruña.jpeg') }}" class="rounded float-start" width="70%" height="70%" alt="Tour Image">
-					</div>
-					<div class="row col-8 ml-5 d-flex align-items-center">
-						<h2 class="col-8 mb-5">Tour por el muelle</h2>
-						<h6 class="col-4 mb-5">Apuntados: 5</h6>
-						<button class="btn btn-custom col-5 m-1 h-25">Asignar guía</button>
-						<button class="btn btn-danger col-5 m-1 h-25">Cancelar ruta</button>
-					</div>
-				</div>
+				<nav id="pagination" aria-label="Page navigation example" class="d-flex justify-content-center align-content-center">
+					<ul class="pagination" style="display: none" id="listaPage">
+						<li class="page-item page-ext" id="previous" onclick="changePage(prev)">
+							<a class="page-link" href="#">Anterior</a>
+						</li>
+						<li class="page-item page-ext" id="next" onclick="changePage(next)">
+							<a class="page-link" href="#">Siguiente</a>
+						</li>
+					</ul>
+				</nav>
 			</div>
 		</div>
 	</section>
@@ -90,15 +76,15 @@
 								<div class="mb-3">
 									<input type="text" class="form-control" id="titulo" name="titulo" required placeholder="Título de la ruta">
 								</div>
-								<div class="mb-3">
-									<textarea class="form-control" id="desc" name="desc" required placeholder="Descripción"></textarea>
-								</div>
+								<select class="form-select-lg custom-select col-12 mb-3" id="sel-loc" aria-label="Default select example">
+									<option selected>Seleccione la provincia</option>
+								</select>
 							</div>
 							<div class="col-6">
 								<div class="mb-3">
 									<input type="number" min="1" class="form-control" id="aforo" name="aforo" required placeholder="Aforo">
 								</div>
-								<input type="file" class="form-control" id="fileInput" name="fileInput" required placeholder="Selecciona un archivo">
+								<input type="file" class="form-control" id="fileInput" onchange="encodeRutaFoto(this)" name="fileInput" required placeholder="Selecciona un archivo">
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -109,6 +95,23 @@
 								<input type="date" class="form-control" id="fec_fin" name="fec_fin" required placeholder="Fecha de fin">
 							</div>
 						</div>
+						<div class="row mb-3">
+							<div class="col-lg-6">
+								<input type="text" class="form-control mb-3" id="ini-ruta" name="ini-ruta" required placeholder="Punto de inicio">
+								<div class="d-flex justify-content-center align-items-center">
+									<input type="text" class="form-control col-5" id="latitudIni" name="latitud" required placeholder="Latitud">
+									<div class="col-2"></div>
+									<input type="text" class="form-control col-5" id="longitudIni" name="longitud" required placeholder="Longitud">
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div id="map-inicio" class="col-12"></div>
+							</div>
+						</div>
+						<div class="mb-3">
+							<textarea class="form-control col-12" style="height: 100px;" id="desc" name="desc" required placeholder="Descripción"></textarea>
+						</div>
+
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -149,6 +152,9 @@
 					</button>
 					<button class="btn btn-custom col-3 fs-6" data-bs-target="#newItemModal" data-bs-toggle="modal" data-bs-dismiss="modal">
 						Crear nuevos items
+					</button>
+					<button class="btn btn-custom col-3 fs-6" data-bs-target="#programModal" data-bs-toggle="modal" data-bs-dismiss="modal">
+						Añadir la programación
 					</button>
 				</div>
 			</div>
@@ -197,6 +203,142 @@
 						Volver
 					</button>
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="programModal" aria-hidden="true" aria-labelledby="programModalLabel" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Edita la programación de la ruta</h5>
+				</div>
+				<div class="modal-body">
+					<h6 class="text-center">Días que estará disponible</h6>
+					<div class="row d-flex justify-content-center align-items-center">
+						<div class="btn-group btn-group-toggle dias" data-toggle="buttons">
+							<label class="btn btn-outline-primary outline-custom">
+								<input value="1" type="checkbox" autocomplete="off">
+								Lunes
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input value="2" type="checkbox" autocomplete="off">
+								Martes
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input value="3" type="checkbox" autocomplete="off">
+								Miércoles
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input value="4" type="checkbox" autocomplete="off">
+								Jueves
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input value="5" type="checkbox" autocomplete="off">
+								Viernes
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input value="6" type="checkbox" autocomplete="off">
+								Sábado
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input value="7" type="checkbox" autocomplete="off">
+								Domingo
+							</label>
+						</div>
+					</div>
+					<h6 class="text-center mt-3">Horas de mañana en las que estará disponible</h6>
+					<div class="row d-flex justify-content-center align-items-center mt-3">
+						<div class="btn-group btn-group-toggle horas" data-toggle="buttons">
+							<label class="btn btn-outline-primary outline-custom">
+								<input type="checkbox" autocomplete="off">
+								9:00-10:00
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input type="checkbox" autocomplete="off">
+								10:00-11:00
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input type="checkbox" autocomplete="off">
+								11:00-12:00
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input type="checkbox" autocomplete="off">
+								12:00-13:00
+							</label>
+						</div>
+					</div>
+					<h6 class="text-center mt-3">Horas de tarde en las que estará disponible</h6>
+					<div class="row d-flex justify-content-center align-items-center mt-3">
+						<div class="btn-group btn-group-toggle horas" data-toggle="buttons">
+							<label class="btn btn-outline-primary outline-custom">
+								<input type="checkbox" autocomplete="off">
+								17:00-18:00
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input type="checkbox" autocomplete="off">
+								18:00-19:00
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input type="checkbox" autocomplete="off">
+								19:00-20:00
+							</label>
+							<label class="btn btn-outline-primary outline-custom">
+								<input type="checkbox" autocomplete="off">
+								20:00-21:00
+							</label>
+						</div>
+					</div>
+					<h6 class="text-center mt-3">Guía asignado a esta ruta</h6>
+					<div class="row d-flex justify-content-center align-items-center mt-3">
+						<select class="form-select-lg custom-select col-5" id="sel-guia" aria-label="Default select example">
+							<option selected>Seleccione al guía</option>
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary col-3 fs-6" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
+						Volver
+					</button>
+					<button type="button" id="crearRuta" class="btn btn-custom col-3 fs-6">
+						Crear ruta
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" id="confirmModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Cancelar el tour</h5>
+				</div>
+				<div class="modal-body">
+					<p>Esta acción será definitiva, una vez eliminado, este tour no volverá a aparecer</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-danger deleteBTN">Eliminar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="calendarModal" aria-hidden="true" aria-labelledby="calendarModalLabel" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Cuadrante de XPeriences</h5>
+				</div>
+				<div class="modal-body">
+					<div id='calendar'></div>
+				</div>
+				{# <div class="modal-footer">
+																																	<button type="button" class="btn btn-secondary col-3 fs-6" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
+																																		Volver
+																																	</button>
+																																</div> #}
 			</div>
 		</div>
 	</div>

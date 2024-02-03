@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReservaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReservaRepository::class)]
@@ -25,6 +26,12 @@ class Reserva
 
     #[ORM\OneToMany(mappedBy: 'Reserva', targetEntity: Valoracion::class, orphanRemoval: true)]
     private Collection $valoracions;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $Fecha = null;
+
+    #[ORM\Column]
+    private ?int $Apuntados = null;
 
     public function __construct()
     {
@@ -86,6 +93,30 @@ class Reserva
                 $valoracion->setReserva(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->Fecha;
+    }
+
+    public function setFecha(\DateTimeInterface $Fecha): static
+    {
+        $this->Fecha = $Fecha;
+
+        return $this;
+    }
+
+    public function getApuntados(): ?int
+    {
+        return $this->Apuntados;
+    }
+
+    public function setApuntados(int $Apuntados): static
+    {
+        $this->Apuntados = $Apuntados;
 
         return $this;
     }
