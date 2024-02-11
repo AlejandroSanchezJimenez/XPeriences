@@ -21,6 +21,16 @@ class ReservaRepository extends ServiceEntityRepository
         parent::__construct($registry, Reserva::class);
     }
 
+    public function remove(Reserva $res)
+    {
+        return $this->createQueryBuilder('u')
+            ->delete(Reserva::class, 'u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $res->getId())
+            ->getQuery()
+            ->execute();
+    }
+
 //    /**
 //     * @return Reserva[] Returns an array of Reserva objects
 //     */

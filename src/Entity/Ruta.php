@@ -50,10 +50,14 @@ class Ruta
     #[ORM\Column(length: 50)]
     private ?string $PuntoInicio = null;
 
+    #[ORM\OneToMany(mappedBy: 'Ruta', targetEntity: Valoracion::class, orphanRemoval: true)]
+    private Collection $valoracions;
+
     public function __construct()
     {
         $this->rutaItems = new ArrayCollection();
         $this->tours = new ArrayCollection();
+        $this->valoracions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,6 +229,36 @@ class Ruta
     public function setPuntoInicio(string $PuntoInicio): static
     {
         $this->PuntoInicio = $PuntoInicio;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Valoracion>
+     */
+    public function getValoracions(): Collection
+    {
+        return $this->valoracions;
+    }
+
+    public function addValoracion(Valoracion $valoracion): static
+    {
+        if (!$this->valoracions->contains($valoracion)) {
+            $this->valoracions->add($valoracion);
+            $valoracion->setRuta($this);
+        }
+
+        return $this;
+    }
+
+    public function removeValoracion(Valoracion $valoracion): static
+    {
+        if ($this->valoracions->removeElement($valoracion)) {
+            // set the owning side to null (unless already changed)
+            if ($valoracion->getRuta() === $this) {
+                $valoracion->setRuta(null);
+            }
+        }
 
         return $this;
     }

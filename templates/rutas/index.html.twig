@@ -12,7 +12,7 @@
 	</section>
 	<section>
 		<div class="row m-5">
-			<div class="col-2">
+			<div class="col-lg-2 col-sm-12">
 				<div class="col-12 bg-routing mb-3 p-4 h-auto">
 					<form id="filtros">
 						<p class="font-weight-bold" id="tourCount">Disponible
@@ -21,30 +21,35 @@
 						<input class="form-control mb-3" list="loc-datalist" id="locationSearcher" placeholder="Busque por ciudad">
 						<input type="date" class="form-control mb-3" id="dateSearcher" placeholder="Seleccione las fechas">
 
-						<p class="font-weight-bold mt-3">Mantenimiento</p>
-
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-							<label class="form-check-label" for="flexSwitchCheckDefault">No repetir ruta</label>
-						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-							<label class="form-check-label" for="flexSwitchCheckChecked">Participantes insuficientes</label>
-						</div>
+						<p class="font-weight-bold" id="tourCount">Valoración</p>
+						<fieldset id="valoracionFieldset">
+							<p class="clasificacion">
+								<input id="radio1" type="radio" name="estrellas" value="5">
+								<label for="radio1">★</label>
+								<input id="radio2" type="radio" name="estrellas" value="4">
+								<label for="radio2">★</label>
+								<input id="radio3" type="radio" name="estrellas" value="3">
+								<label for="radio3">★</label>
+								<input id="radio4" type="radio" name="estrellas" value="2">
+								<label for="radio4">★</label>
+								<input id="radio5" type="radio" name="estrellas" value="1">
+								<label for="radio5">★</label>
+							</p>
+						</fieldset>
 
 						<div class="row mt-3">
 							<h1 class="col-7"></h1>
-							<a href="" id="clean" class="col-5 small">Limpiar todo</a>
+							<a href="" id="clean" class="ml-auto mr-4 small">Limpiar todo</a>
 						</div>
 						<datalist id="loc-datalist"></datalist>
 					</form>
 				</div>
-				<button class="btn btn-custom col-12" data-bs-toggle="modal" href="#newRouteModal">Nueva ruta</button>
-				<button class="btn btn-custom col-12 mt-3" data-bs-toggle="modal" href="#calendarModal">Calendario</button>
+				<button class="btn btn-custom col-12" data-bs-toggle="modal" href="#newRouteModal" onclick="initializeMaps('map-inicio')">Nueva ruta</button>
+				<button class="btn btn-custom col-12 mt-3 mb-4" data-bs-toggle="modal" href="#calendarModal" onclick="inicializarCalendario()">Calendario</button>
 			</div>
-			<div class="col-1 bg-active custom-height"></div>
+			<div class="col-1 bg-active"></div>
 
-			<div class="col-9 bg-active h-auto" id="zona-tours">
+			<div class="col-lg-9 col-sm-12 bg-active h-auto" id="zona-tours">
 				<div id="empty" style="display: none" class="row bg-routing mb-3 justify-content-center align-items-center tours p-1">
 					<img id="foto" src="{{asset('media/coliseo.png')}}" width="20%" height="20%" alt="Tour Image">
 					<h5 class="col-12 text-center">Tu búsqueda está en ruinas</h5>
@@ -74,7 +79,7 @@
 						<div class="row">
 							<div class="col-6">
 								<div class="mb-3">
-									<input type="text" class="form-control" id="titulo" name="titulo" required placeholder="Título de la ruta">
+									<input type="text" class="form-control" id="tituloRuta" required placeholder="Título de la ruta">
 								</div>
 								<select class="form-select-lg custom-select col-12 mb-3" id="sel-loc" aria-label="Default select example">
 									<option selected>Seleccione la provincia</option>
@@ -115,8 +120,8 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-custom col-3 fs-6" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
-						Añadir items
+					<button class="btn btn-custom col-2 fs-6" data-bs-target="#newRouteModal2" onclick="initializeMaps('map-items')" data-bs-toggle="modal" data-bs-dismiss="modal">
+						Siguiente
 					</button>
 				</div>
 			</div>
@@ -128,6 +133,12 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Añade los items de la ruta</h5>
+					<button class="btn btn-custom col-1 fs-6" data-bs-target="#newItemModal" onclick="initializeMaps('map')" data-bs-toggle="modal" data-bs-dismiss="modal">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-plus" viewbox="0 0 16 16">
+							<path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+							<path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4"/>
+						</svg>
+					</button>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -146,15 +157,12 @@
 						<div id="map-items" class="col-12"></div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary col-3 fs-6" data-bs-target="#newRouteModal" data-bs-toggle="modal" data-bs-dismiss="modal">
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-secondary col-2 fs-6" data-bs-target="#newRouteModal" data-bs-toggle="modal" data-bs-dismiss="modal">
 						Volver
 					</button>
-					<button class="btn btn-custom col-3 fs-6" data-bs-target="#newItemModal" data-bs-toggle="modal" data-bs-dismiss="modal">
-						Crear nuevos items
-					</button>
-					<button class="btn btn-custom col-3 fs-6" data-bs-target="#programModal" data-bs-toggle="modal" data-bs-dismiss="modal">
-						Añadir la programación
+					<button class="btn btn-custom col-2 fs-6" data-bs-target="#programModal" data-bs-toggle="modal" data-bs-dismiss="modal">
+						Siguiente
 					</button>
 				</div>
 			</div>
@@ -199,7 +207,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary col-3 fs-6" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
+					<button type="button" class="btn btn-secondary col-2 fs-6 mr-auto" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
 						Volver
 					</button>
 				</div>
@@ -214,95 +222,83 @@
 					<h5 class="modal-title" id="exampleModalLabel">Edita la programación de la ruta</h5>
 				</div>
 				<div class="modal-body">
-					<h6 class="text-center">Días que estará disponible</h6>
-					<div class="row d-flex justify-content-center align-items-center">
-						<div class="btn-group btn-group-toggle dias" data-toggle="buttons">
-							<label class="btn btn-outline-primary outline-custom">
-								<input value="1" type="checkbox" autocomplete="off">
-								Lunes
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input value="2" type="checkbox" autocomplete="off">
-								Martes
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input value="3" type="checkbox" autocomplete="off">
-								Miércoles
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input value="4" type="checkbox" autocomplete="off">
-								Jueves
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input value="5" type="checkbox" autocomplete="off">
-								Viernes
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input value="6" type="checkbox" autocomplete="off">
-								Sábado
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input value="7" type="checkbox" autocomplete="off">
-								Domingo
-							</label>
+					<form id="diahoraForm">
+						<h6 class="text-center">Días que estará disponible</h6>
+						<div class="row d-flex justify-content-center align-items-center">
+							<div class="btn-group btn-group-toggle dias" data-toggle="buttons">
+								<label class="btn btn-outline-primary outline-custom">
+									<input value="1" type="checkbox" autocomplete="off" data-info='L'>
+									Lunes
+								</label>
+								<label class="btn btn-outline-primary outline-custom">
+									<input value="2" type="checkbox" autocomplete="off" data-info='M'>
+									Martes
+								</label>
+								<label class="btn btn-outline-primary outline-custom">
+									<input value="3" type="checkbox" autocomplete="off" data-info='X'>
+									Miércoles
+								</label>
+								<label class="btn btn-outline-primary outline-custom">
+									<input value="4" type="checkbox" autocomplete="off" data-info='J'>
+									Jueves
+								</label>
+							</div>
+							<div class="btn-group btn-group-toggle dias" data-toggle="buttons">
+								<label class="btn btn-outline-primary outline-custom">
+									<input value="5" type="checkbox" autocomplete="off" data-info='V'>
+									Viernes
+								</label>
+								<label class="btn btn-outline-primary outline-custom">
+									<input value="6" type="checkbox" autocomplete="off" data-info='S'>
+									Sábado
+								</label>
+								<label class="btn btn-outline-primary outline-custom">
+									<input value="7" type="checkbox" autocomplete="off" data-info='D'>
+									Domingo
+								</label>
+							</div>
 						</div>
-					</div>
-					<h6 class="text-center mt-3">Horas de mañana en las que estará disponible</h6>
-					<div class="row d-flex justify-content-center align-items-center mt-3">
-						<div class="btn-group btn-group-toggle horas" data-toggle="buttons">
-							<label class="btn btn-outline-primary outline-custom">
-								<input type="checkbox" autocomplete="off">
-								9:00-10:00
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input type="checkbox" autocomplete="off">
-								10:00-11:00
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input type="checkbox" autocomplete="off">
-								11:00-12:00
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input type="checkbox" autocomplete="off">
-								12:00-13:00
-							</label>
+						<h6 class="text-center mt-3">Escoja las fechas en las que se aplicará este horario</h6>
+						<div class="row d-flex justify-content-center align-items-center mt-3 mb-3">
+							<input type="date" id="fechaIniPrg" class="form-control col-3" placeholder="Fecha de inicio">
+							<input type="date" id="fechaFinPrg" class="form-control col-3 ml-1" placeholder="Fecha de fin">
 						</div>
-					</div>
-					<h6 class="text-center mt-3">Horas de tarde en las que estará disponible</h6>
-					<div class="row d-flex justify-content-center align-items-center mt-3">
-						<div class="btn-group btn-group-toggle horas" data-toggle="buttons">
-							<label class="btn btn-outline-primary outline-custom">
-								<input type="checkbox" autocomplete="off">
-								17:00-18:00
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input type="checkbox" autocomplete="off">
-								18:00-19:00
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input type="checkbox" autocomplete="off">
-								19:00-20:00
-							</label>
-							<label class="btn btn-outline-primary outline-custom">
-								<input type="checkbox" autocomplete="off">
-								20:00-21:00
-							</label>
+						<h6 class="text-center mt-3">Guía asignado a esta ruta</h6>
+						<div class="row d-flex justify-content-center align-items-center mt-3">
+							<select class="form-select-lg custom-select col-3" id="sel-guia" aria-label="Default select example">
+								<option selected>Seleccione al guía</option>
+							</select>
 						</div>
-					</div>
-					<h6 class="text-center mt-3">Guía asignado a esta ruta</h6>
-					<div class="row d-flex justify-content-center align-items-center mt-3">
-						<select class="form-select-lg custom-select col-5" id="sel-guia" aria-label="Default select example">
-							<option selected>Seleccione al guía</option>
-						</select>
-					</div>
+						<h6 class="text-center mt-3">Escoja las horas ofertadas para los días seleccionados</h6>
+						<div class="row d-flex justify-content-center align-items-center mt-3 mb-3">
+							<input type="time" id="horaDia" class="form-control col-3" placeholder="Hora del tour">
+							<button type="button" onclick="addHour()" class="btn btn-custom ml-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-plus" viewbox="0 0 16 16">
+									<path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+									<path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4"/>
+								</svg>
+							</button>
+							<button type="button" onclick="clearForm()" class="btn btn-custom ml-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewbox="0 0 16 16">
+									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+									<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+								</svg>
+							</button>
+
+						</div>
+					</form>
+
+					<div class="diaHora text-center" id="saco"></div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary col-3 fs-6" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
+				<div class="modal-footer justify-content-start">
+					<button type="button" class="btn btn-secondary col-2 fs-6 mr-auto" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
 						Volver
 					</button>
-					<button type="button" id="crearRuta" class="btn btn-custom col-3 fs-6">
+					<div class="col-3"></div>
+					<button type="button" id="crearRuta" class="btn btn-custom col-2">
 						Crear ruta
 					</button>
+					<div class="col-5"></div>
 				</div>
 			</div>
 		</div>
@@ -334,13 +330,11 @@
 				<div class="modal-body">
 					<div id='calendar'></div>
 				</div>
-				{# <div class="modal-footer">
-																																	<button type="button" class="btn btn-secondary col-3 fs-6" data-bs-target="#newRouteModal2" data-bs-toggle="modal" data-bs-dismiss="modal">
-																																		Volver
-																																	</button>
-																																</div> #}
 			</div>
 		</div>
+	</div>
+	<div class="overlay" id="overlay" style="display:none;">
+		<img class="jello-horizontal" src="{{asset('media/logo.png')}}" width="50px">
 	</div>
 </div></div>{% block javascripts %}
 {{parent()}}{% endblock %}{% endblock %}

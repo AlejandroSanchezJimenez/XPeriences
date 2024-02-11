@@ -54,6 +54,8 @@ class RutasController extends AbstractController
     public function addRuta(Request $request, EntityManagerInterface $entityManager, LocalidadRepository $locrep, ItemRepository $itrep, UserRepository $userRep): JsonResponse
     {
         try {
+            $entityManager->beginTransaction();
+
             $data = json_decode($request->getContent(), true);
 
             $titulo = $data['titulo'];
@@ -77,10 +79,11 @@ class RutasController extends AbstractController
             $ruta->setFechaIni($fecIni);
             $ruta->setFechaFin($fecFin);
             $ruta->setPuntoInicio($latitud . ', ' . $longitud);
-            $ruta->setProgramacion($programacion);
             $ruta->setLocalidad($locrep->find($localidad));
 
             $entityManager->persist($ruta);
+
+            // Flush después de persistir la ruta principal
             $entityManager->flush();
 
             foreach ($items as $item) {
@@ -91,25 +94,40 @@ class RutasController extends AbstractController
                 $entityManager->persist($rutaItem);
             }
 
+            // Flush después de persistir todos los items
             $entityManager->flush();
 
-            while ($fecIni <= $fecFin) {
-                foreach ($programacion['dias'] as $dia) {
-                    if ($fecIni->format('N') == $dia) {
-                        foreach ($programacion['horas'] as $hora) {
+            foreach ($programacion['fragmento'] as $data) {
+                $fecIni = new DateTime($data['inicio']);
+                $fecFin = new DateTime($data['fin']);
+                $guia = $userRep->find($data['guia']);
+
+                while ($fecIni <= $fecFin) {
+                    foreach ($data['dia'] as $dia) {
+                        if ($fecIni->format('N') == $dia) {
                             $tour = new Tour();
                             $tour->setRuta($ruta);
-                            $tour->setGuia($userRep->find($programacion['guia'][0]));
-                            $tour->setFecha($fecIni);
-                            $tour->setHora($hora);
+                            $tour->setGuia($guia);
+
+                            // Clonar la fecha para evitar modificar la misma instancia
+                            $fechaTour = clone $fecIni;
+
+                            $tour->setFecha($fechaTour);
+                            $tour->setHora($data['hora']);
 
                             $entityManager->persist($tour);
-                            $entityManager->flush();
                         }
                     }
+                    $fecIni = $fecIni->modify('+1 day'); // Modifica el objeto original $fecIni
                 }
-                $fecIni = $fecIni->modify('+1 day');
             }
+
+
+            // Flush después de persistir todos los tours
+            $entityManager->flush();
+
+            // Confirmar la transacción
+            $entityManager->commit();
 
             return $this->json(['message' => 'Ruta creada'], 201);
         } catch (\Exception $e) {

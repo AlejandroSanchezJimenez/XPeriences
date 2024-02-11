@@ -15,30 +15,18 @@ class Valoracion
 
     #[ORM\ManyToOne(inversedBy: 'valoracions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Tour $Tour = null;
-
-    #[ORM\ManyToOne(inversedBy: 'valoracions')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Reserva $Reserva = null;
 
     #[ORM\Column]
     private ?int $Puntuacion = null;
 
+    #[ORM\ManyToOne(inversedBy: 'valoracions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ruta $Ruta = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTour(): ?Tour
-    {
-        return $this->Tour;
-    }
-
-    public function setTour(?Tour $Tour): static
-    {
-        $this->Tour = $Tour;
-
-        return $this;
     }
 
     public function getReserva(): ?Reserva
@@ -61,6 +49,18 @@ class Valoracion
     public function setPuntuacion(int $Puntuacion): static
     {
         $this->Puntuacion = $Puntuacion;
+
+        return $this;
+    }
+
+    public function getRuta(): ?Ruta
+    {
+        return $this->Ruta;
+    }
+
+    public function setRuta(?Ruta $Ruta): static
+    {
+        $this->Ruta = $Ruta;
 
         return $this;
     }

@@ -4,139 +4,140 @@
 	{{parent()}}
 {% endblock %}
 {% block body %}
-	{% if error %}
-		<div class="custom-error-message alert alert-danger" style="color: red;">
-			<p>{{ 'Usuario incorrecto, inténtelo de nuevo'|trans }}</p>
-			{# <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p> #}
-		</div>
-	{% endif %}
-	<section class="mb-5">
-		<div class="carrusel row d-flex align-items-center justify-content-center">
-			<div class="col-12 text-center">
-				<h1>Explora, sueña, descubre</h1>
-				<h4>Todo sin costo. Únete a nosotros en la nueva era de los freetours</h4>
+	<div class="main">
+		{% if error %}
+			<div class="custom-error-message alert alert-danger" style="color: red;">
+				<p>{{ 'Usuario incorrecto, inténtelo de nuevo'|trans }}</p>
+				{# <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p> #}
 			</div>
-			<form class="d-flex flex-column">
-				<div class="row justify-content-center ui-widget">
-					<input list="loc-datalist" type="text" class="form-control col-7 mb-2 mr-4" id="ciudad" required placeholder="¿Qué sitio quieres descubrir?">
-					<button type="submit" id="searchBtn-Lnd" class="btn btn-custom align-self-end col-4 mb-2">¡A viajar!</button>
+		{% endif %}
+		<section class="mb-5">
+			<div class="carrusel row d-flex align-items-center justify-content-center">
+				<div class="col-12 text-center">
+					<p class="titulo">Explora, sueña, descubre</p>
+					<p class="subtitulo">Todo sin costo. Únete a nosotros en la nueva era de los freetours</p>
 				</div>
+				<form class="d-flex flex-column formSearch">
+					<div class="row justify-content-center ui-widget">
+						<input list="loc-datalist" type="text" class="form-control col-md-7 col-12 mb-2 mr-md-4" id="ciudad" required placeholder="¿Qué sitio quieres descubrir?">
+						<button type="submit" id="searchBtn-Lnd" class="btn btn-custom align-self-end col-md-4 col-12 mb-2">¡A viajar!</button>
+					</div>
+					<div class="row">
+						<input type="date" class="form-control col-12" id="fecha" placeholder="Selecciona la fecha de la ruta">
+					</div>
+					<datalist id="loc-datalist"></datalist>
+				</form>
+
+			</div>
+		</section>
+
+		<section class="mb-5">
+			<div class="container">
 				<div class="row">
-					<input type="date" class="form-control col-12 " id="fecha" placeholder="Selecciona la fecha de la ruta">
+					<h4 class="col-10">
+						Nuestros tours más elegidos
+					</h4>
+					<button class="yellow btn btn-link col-2">
+						<h4>Ver más destinos</h4>
+					</button>
 				</div>
-				<datalist id="loc-datalist">
-				</datalist>
-			</form>
-		</div>
-	</section>
-
-	<section class="mb-5">
-		<div class="container">
-			<div class="row">
-				<h4 class="col-10">
-					Nuestros tours más elegidos
-				</h4>
-				<button class="yellow btn btn-link col-2">
-					<h4>Ver más destinos</h4>
-				</button>
-			</div>
-			<div class="row justify-content-center">
-				<div class="card m-4" style="width: 18rem;">
-					<img src="media/madrid.jpg" class="card-img-top" alt="...">
-					<div class="card-body">
-						<h5 class="card-title">Madrid</h5>
-						<h6 class="card-text">España</h6>
+				<div class="row justify-content-center">
+					<div class="card m-4" style="width: 18rem;">
+						<img src="media/madrid.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title">Madrid</h5>
+							<h6 class="card-text">España</h6>
+						</div>
 					</div>
-				</div>
 
-				<div class="card m-4" style="width: 18rem;">
-					<img src="media/malaga.jpg" class="card-img-top" alt="...">
-					<div class="card-body">
-						<h5 class="card-title">Málaga</h5>
-						<h6 class="card-text">España</h6>
+					<div class="card m-4" style="width: 18rem;">
+						<img src="media/malaga.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title">Málaga</h5>
+							<h6 class="card-text">España</h6>
+						</div>
 					</div>
-				</div>
 
-				<div class="card m-4" style="width: 18rem;">
-					<img src="media/coruña.jpeg" class="card-img-top" alt="...">
-					<div class="card-body">
-						<h5 class="card-title">A Coruña</h5>
-						<h6 class="card-text">España</h6>
+					<div class="card m-4" style="width: 18rem;">
+						<img src="media/coruña.jpeg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title">A Coruña</h5>
+							<h6 class="card-text">España</h6>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
-	<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Accede a tu cuenta</h5>
+		<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Accede a tu cuenta</h5>
+					</div>
+					<div class="modal-body">
+						<form method="post" action="{{ path('app_home') }}">
+							<div class="mb-3">
+								<input type="text" class="form-control" id="username" name="_username" required placeholder="Correo electrónico">
+							</div>
+							<div class="mb-3">
+								<input type="password" class="form-control" id="password" name="_password" required placeholder="Contraseña">
+							</div>
+							<div class="row mb-3">
+								<h1 class="col-4"></h1>
+								<a href="" class="col-8 small">¿Has olvidado tu contraseña?</a>
+							</div>
+							<div class="mb-4">
+								<button type="submit" id="login" class="btn btn-custom col-12">Iniciar sesión</button>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<p class="col-9">
+							¿No tienes cuenta?
+						</p>
+						<button class="yellow btn btn-link col-3 fs-6" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">
+							Crear
+						</button>
+					</div>
 				</div>
-				<div class="modal-body">
-					<form method="post" action="{{ path('app_home') }}">
-						<div class="mb-3">
-							<input type="text" class="form-control" id="username" name="_username" required placeholder="Correo electrónico">
-						</div>
-						<div class="mb-3">
-							<input type="password" class="form-control" id="password" name="_password" required placeholder="Contraseña">
-						</div>
-						<div class="row mb-3">
-							<h1 class="col-4"></h1>
-							<a href="" class="col-8 small">¿Has olvidado tu contraseña?</a>
-						</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Regístrate</h5>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<input type="text" class="form-control" id="registerEmail" required placeholder="Correo electrónico">
+							</div>
+							<div class="mb-3">
+								<input type="password" class="form-control" id="registerPass" required placeholder="Contraseña">
+							</div>
+							<div class="mb-3">
+								<input type="password" class="form-control" id="confirmPass" required placeholder="Confirmar contraseña">
+							</div>
+						</form>
 						<div class="mb-4">
-							<button type="submit" id="login" class="btn btn-custom col-12">Iniciar sesión</button>
+							<button type="button" id="register" class="btn btn-custom col-12">Registrar</button>
 						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<p class="col-9">
-						¿No tienes cuenta?
-					</p>
-					<button class="yellow btn btn-link col-3 fs-6" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">
-						Crear
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Regístrate</h5>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="mb-3">
-							<input type="text" class="form-control" id="registerEmail" required placeholder="Correo electrónico">
-						</div>
-						<div class="mb-3">
-							<input type="password" class="form-control" id="registerPass" required placeholder="Contraseña">
-						</div>
-						<div class="mb-3">
-							<input type="password" class="form-control" id="confirmPass" required placeholder="Confirmar contraseña">
-						</div>
-					</form>
-					<div class="mb-4">
-						<button type="button" id="register" class="btn btn-custom col-12">Registrar</button>
+					</div>
+					<div class="modal-footer">
+						<p class="col-9">
+							¿Ya tienes cuenta?
+						</p>
+						<button type="button" class="yellow btn btn-link col-3 fs-6" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">
+							Entrar
+						</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<p class="col-9">
-						¿Ya tienes cuenta?
-					</p>
-					<button type="button" class="yellow btn btn-link col-3 fs-6" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">
-						Entrar
-					</button>
-				</div>
 			</div>
 		</div>
 	</div>
-
 	{% block javascripts %}
 		{{parent()}}
 	{% endblock %}

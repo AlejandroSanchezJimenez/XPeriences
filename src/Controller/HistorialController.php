@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HistorialController extends AbstractController
 {
-    #[Route('/historial', name: 'app_historial')]
+    #[Route('/perfil', name: 'app_historial')]
     public function index(): Response
     {
         return $this->render('historial/index.html.twig', [

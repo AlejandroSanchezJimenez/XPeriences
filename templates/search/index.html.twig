@@ -4,7 +4,8 @@
 	<section class="">
 		<header class="busquedaPan bg-dark text-white text-center py-5">
 			<div class="container">
-				<h1 class="display-2" id="titPage">Tours gratis en </h1>
+				<h1 class="titulo" id="titPage">Tours gratis en
+				</h1>
 			</div>
 		</header>
 	</section>
@@ -17,27 +18,44 @@
 				</h5>
 			</a>
 		</div>
+
 	</section>
 	<div class="row m-5">
-		<div class="col-2">
-			<div class="col-12 bg-routing mb-3 p-4 h-auto">
+
+		<div class="col-lg-2 col-sm-12">
+			<div class="col-12 bg-routing mb-5 p-4 h-auto">
 				<form id="filtros">
-					<p class="font-weight-bold" id="tourCount">Disponible
-												resultados</p>
+					<p class="seccion" id="tourCount">Disponible resultados</p>
 					<input class="form-control mb-3" list="loc-datalist" id="locationSearcher" placeholder="Busque por ciudad">
 					<input type="date" class="form-control mb-3" id="dateSearcher" placeholder="Seleccione las fechas">
 
-					<div class="row mt-3">
-						<h1 class="col-7"></h1>
-						<a href="" id="clean" class="col-5 small">Limpiar todo</a>
+					<p class="font-weight-bold" id="tourCount">Valoración</p>
+					<fieldset id="valoracionFieldset">
+						<p class="clasificacion">
+							<input id="radio1" type="radio" name="estrellas" value="5">
+							<label for="radio1">★</label>
+							<input id="radio2" type="radio" name="estrellas" value="4">
+							<label for="radio2">★</label>
+							<input id="radio3" type="radio" name="estrellas" value="3">
+							<label for="radio3">★</label>
+							<input id="radio4" type="radio" name="estrellas" value="2">
+							<label for="radio4">★</label>
+							<input id="radio5" type="radio" name="estrellas" value="1">
+							<label for="radio5">★</label>
+						</p>
+					</fieldset>
+
+					<div class="row mt-1">
+						<a href="" id="clean" class="small ml-auto mr-4">Limpiar todo</a>
 					</div>
 					<datalist id="loc-datalist"></datalist>
 				</form>
 			</div>
 		</div>
-		<div class="col-1 bg-active custom-height"></div>
 
-		<div class="col-9 bg-active h-auto" id="zona-tours">
+		<div class="col-lg-1 col-sm-0 bg-active"></div>
+
+		<div class="col-lg-9 col-sm-12 bg-active h-auto" id="zona-tours">
 			<div id="empty" style="display: none" class="row bg-routing mb-3 justify-content-center align-items-center tours p-1">
 				<img id="foto" src="{{asset('media/coliseo.png')}}" width="20%" height="20%" alt="Tour Image">
 				<h5 class="col-12 text-center">Tu búsqueda está en ruinas</h5>
@@ -52,6 +70,9 @@
 					</li>
 				</ul>
 			</nav>
+		</div>
+		<div class="overlay" id="overlay" style="display:none;">
+			<img class="jello-horizontal" src="{{asset('media/logo.png')}}" width="50px">
 		</div>
 	</div>
 	{% block javascripts %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Reserva;
 use App\Entity\Ruta;
 use App\Entity\User;
+use App\Repository\ReservaRepository;
 use App\Repository\RutaRepository;
 use App\Repository\TourRepository;
 use App\Repository\UserRepository;
@@ -33,8 +34,8 @@ class ReservaController extends AbstractController
         $user = new User();
         $tour = new Ruta();
 
-        $user= $userRep->find($userid);
-        $tour= $tourRep->find($tourid);
+        $user = $userRep->find($userid);
+        $tour = $tourRep->find($tourid);
 
         $res->setTour($tour);
         $res->setUser($user);
@@ -45,5 +46,49 @@ class ReservaController extends AbstractController
         $entityManager->flush();
 
         return $this->json(['message' => 'Reserva creada'], 201);
+    }
+
+    #[Route('/reservas/api/{id}', name: 'app_reservas_api_id')]
+    public function getReservasByUserId(ReservaRepository $locRepository, $id): JsonResponse
+    {
+        $localidades = $locRepository->findBy(['User' => $id]);
+        $data = [];
+
+        foreach ($localidades as $localidad) {
+            $fotoBlob = $localidad->getTour()->getRuta()->getFoto();
+            rewind($fotoBlob);
+            $foto = stream_get_contents($fotoBlob);
+            $data[] = [
+                'id' => $localidad->getId(),
+                'fecha' => $localidad->getTour()->getFecha(),
+                'hora' => $localidad->getTour()->getHora(),
+                'titulo' => $localidad->getTour()->getRuta()->getTitulo(),
+                'apuntados' => $localidad->getApuntados(),
+                'foto' => $foto,
+                'ruta' => $localidad->getTour()->getRuta()->getId()
+            ];
+        }
+
+        return $this->json($data, 200);
+    }
+
+    #[Route('/plantillaReservas', name: 'app_plantilla_reservas')]
+    public function getplantillaRes(): Response
+    {
+        return $this->render('reserva/tarjetareserva.html.twig');
+    }
+
+    #[Route('/reserva/api/eliminar/{id}', name: 'app_reserva_api_delete', methods: ['DELETE'])]
+    public function removeReserva(ReservaRepository $resRep, $id): JsonResponse
+    {
+        $reserva = $resRep->find($id);
+
+        if (!$reserva) {
+            return $this->json(['message' => 'No existe una reserva con ese ID'], 404);
+        }
+
+        $resRep->remove($reserva, true);
+
+        return $this->json(['message' => 'Reserva eliminada'], 204);
     }
 }
