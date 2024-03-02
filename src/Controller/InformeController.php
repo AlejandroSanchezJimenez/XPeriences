@@ -16,13 +16,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class InformeController extends AbstractController
 {
     #[Route('/informe/api/crear', name: 'app_informe_api_add', methods: ['POST'])]
-    public function addValoracion(Request $request, EntityManagerInterface $entityManager, TourRepository $tourRep): JsonResponse
+    public function addInforme(Request $request, EntityManagerInterface $entityManager, TourRepository $tourRep): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         // Obtener los datos del usuario (id, email, isVerified) desde $data
         $tourid = $data['tour'];
         $foto = $data['foto'];
         $ingresos = $data['ingresos'];
+        $observaciones = $data['observaciones'];
 
         // Crear una nueva entidad de Usuario
         $inf = new Informe();
@@ -33,6 +34,7 @@ class InformeController extends AbstractController
         $inf->setTour($tour);
         $inf->setFotoGrupo($foto);
         $inf->setDineroRuta($ingresos);
+        $inf->setObservaciones($observaciones);
 
         $entityManager->persist($inf);
         $entityManager->flush();

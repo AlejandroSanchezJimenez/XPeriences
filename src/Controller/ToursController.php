@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Tour;
+use App\Entity\User;
 use App\Entity\Valoracion;
 use App\Repository\ReservaRepository;
 use App\Repository\TourRepository;
+use App\Repository\UserRepository;
 use App\Repository\ValoracionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Length;
@@ -66,10 +70,10 @@ class ToursController extends AbstractController
         foreach ($localidades as $localidad) {
             $tourConRes = $resRep->findBy(['Tour' => $localidad->getId()]);
             $totalApuntados = 0;
-            $emApuntados=[];
+            $emApuntados = [];
             foreach ($tourConRes as $tour) {
                 $totalApuntados += $tour->getApuntados();
-                array_push($emApuntados,$tour->getUser()->getEmail());
+                array_push($emApuntados, $tour->getUser()->getEmail());
             }
             $fotoBlob = $localidad->getRuta()->getFoto();
             rewind($fotoBlob);
@@ -88,6 +92,54 @@ class ToursController extends AbstractController
 
         return $this->json($data, 200);
     }
+
+    #[Route('/tours/api/edit/{id}', name: 'app_update_tour_api')]
+    public function updateTour(Request $request, $id, UserRepository $usRep, TourRepository $tourRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // Obtener el tour existente
+        $tour = $tourRepository->find($id);
+
+        // Verificar si el tour existe
+        if (!$tour) {
+            return $this->json(['message' => 'Tour no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Actualizar los campos del tour si se proporcionan en los datos
+        if (isset($data['guia'])) {
+            $guia = new User();
+            $guia= $usRep->find($data['guia']);
+            $tour->setGuia($guia);
+        }
+
+        if (isset($data['hora'])) {
+            $tour->setHora($data['hora']);
+        }
+
+        // Puedes agregar más campos para actualizar según tus necesidades
+
+        // Persistir los cambios en la base de datos
+        $entityManager->persist($tour);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Tour actualizado correctamente'], Response::HTTP_OK);
+    }
+    
+    #[Route('/tour/api/eliminar/{id}', name: 'app_tours_api_delete', methods: ['DELETE'])]
+    public function removeReserva(TourRepository $resRep, $id): JsonResponse
+    {
+        $reserva = $resRep->find($id);
+
+        if (!$reserva) {
+            return $this->json(['message' => 'No existe un toiur con ese ID'], 404);
+        }
+
+        $resRep->remove($reserva, true);
+
+        return $this->json(['message' => 'Tour eliminado'], 204);
+    }
+
 
     // #[Route('/tours/api/{id}', name: 'app_tours_api_id')]
     // public function getTourByUserId(TourRepository $locRepository, $id): JsonResponse

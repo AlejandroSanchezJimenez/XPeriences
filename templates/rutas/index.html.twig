@@ -45,7 +45,8 @@
 					</form>
 				</div>
 				<button class="btn btn-custom col-12" data-bs-toggle="modal" href="#newRouteModal" onclick="initializeMaps('map-inicio')">Nueva ruta</button>
-				<button class="btn btn-custom col-12 mt-3 mb-4" data-bs-toggle="modal" href="#calendarModal" onclick="inicializarCalendario()">Calendario</button>
+				<button class="btn btn-custom col-12 mt-3" data-bs-toggle="modal" href="#calendarModal" onclick="inicializarCalendario()">Calendario</button>
+				<button class="btn btn-custom col-12 mt-3 mb-4" data-bs-toggle="modal" href="#cambiosMasivos" onclick="">Cambios masivos</button>
 			</div>
 			<div class="col-1 bg-active"></div>
 
@@ -75,38 +76,38 @@
 					<h5 class="modal-title" id="exampleModalLabel">Crea una nueva ruta</h5>
 				</div>
 				<div class="modal-body">
-					<form method="post">
+					<form method="post" id="ruta-1">
 						<div class="row">
 							<div class="col-6">
 								<div class="mb-3">
-									<input type="text" class="form-control" id="tituloRuta" required placeholder="Título de la ruta">
+									<input type="text" class="form-control" id="tituloRuta" data-valida="nombre" required placeholder="Título de la ruta">
 								</div>
-								<select class="form-select-lg custom-select col-12 mb-3" id="sel-loc" aria-label="Default select example">
-									<option selected>Seleccione la provincia</option>
+								<select class="form-select-lg custom-select col-12 mb-3" data-valida="select" id="sel-loc" aria-label="Default select example">
+									<option selected value="">Seleccione la provincia</option>
 								</select>
 							</div>
 							<div class="col-6">
 								<div class="mb-3">
-									<input type="number" min="1" class="form-control" id="aforo" name="aforo" required placeholder="Aforo">
+									<input type="number" min="1" class="form-control" data-valida="int" id="aforo" name="aforo" required placeholder="Aforo">
 								</div>
-								<input type="file" class="form-control" id="fileInput" onchange="encodeRutaFoto(this)" name="fileInput" required placeholder="Selecciona un archivo">
+								<input type="file" class="form-control" id="fileInput" data-valida="file" onchange="encodeRutaFoto(this)" name="fileInput" required placeholder="Selecciona un archivo">
 							</div>
 						</div>
 						<div class="row mb-3">
 							<div class="col-6">
-								<input type="date" class="form-control" id="fec_ini" name="fec_ini" required placeholder="Fecha de inicio">
+								<input type="date" class="form-control" id="fec_ini" data-valida="fecha" name="fec_ini" required placeholder="Fecha de inicio">
 							</div>
 							<div class="col-6">
-								<input type="date" class="form-control" id="fec_fin" name="fec_fin" required placeholder="Fecha de fin">
+								<input type="date" class="form-control" id="fec_fin" data-valida="fecha" name="fec_fin" required placeholder="Fecha de fin">
 							</div>
 						</div>
 						<div class="row mb-3">
 							<div class="col-lg-6">
-								<input type="text" class="form-control mb-3" id="ini-ruta" name="ini-ruta" required placeholder="Punto de inicio">
+								<input type="text" class="form-control mb-3" data-valida="nombre" id="ini-ruta" name="ini-ruta" required placeholder="Punto de inicio">
 								<div class="d-flex justify-content-center align-items-center">
-									<input type="text" class="form-control col-5" id="latitudIni" name="latitud" required placeholder="Latitud">
+									<input type="text" data-valida="double" class="form-control col-5" id="latitudIni" name="latitud" required placeholder="Latitud">
 									<div class="col-2"></div>
-									<input type="text" class="form-control col-5" id="longitudIni" name="longitud" required placeholder="Longitud">
+									<input type="text" data-valida="double" class="form-control col-5" id="longitudIni" name="longitud" required placeholder="Longitud">
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -114,13 +115,12 @@
 							</div>
 						</div>
 						<div class="mb-3">
-							<textarea class="form-control col-12" style="height: 100px;" id="desc" name="desc" required placeholder="Descripción"></textarea>
+							<textarea data-valida="textarea" class="form-control col-12" style="height: 100px;" id="desc" name="desc" required placeholder="Descripción"></textarea>
 						</div>
-
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-custom col-2 fs-6" data-bs-target="#newRouteModal2" onclick="initializeMaps('map-items')" data-bs-toggle="modal" data-bs-dismiss="modal">
+					<button disabled class="btn btn-custom col-2 fs-6" id="ruta-1-sig" data-bs-target="#newRouteModal2" onclick="initializeMaps('map-items')" data-bs-toggle="modal" data-bs-dismiss="modal">
 						Siguiente
 					</button>
 				</div>
@@ -161,7 +161,7 @@
 					<button type="button" class="btn btn-secondary col-2 fs-6" data-bs-target="#newRouteModal" data-bs-toggle="modal" data-bs-dismiss="modal">
 						Volver
 					</button>
-					<button class="btn btn-custom col-2 fs-6" data-bs-target="#programModal" data-bs-toggle="modal" data-bs-dismiss="modal">
+					<button disabled id="ruta-2-sig" class="btn btn-custom col-2 fs-6" data-bs-target="#programModal" data-bs-toggle="modal" data-bs-dismiss="modal">
 						Siguiente
 					</button>
 				</div>
@@ -224,7 +224,7 @@
 				<div class="modal-body">
 					<form id="diahoraForm">
 						<h6 class="text-center">Días que estará disponible</h6>
-						<div class="row d-flex justify-content-center align-items-center">
+						<div class="row d-flex justify-content-center align-items-center" id="inp-dias">
 							<div class="btn-group btn-group-toggle dias" data-toggle="buttons">
 								<label class="btn btn-outline-primary outline-custom">
 									<input value="1" type="checkbox" autocomplete="off" data-info='L'>
@@ -260,25 +260,25 @@
 						</div>
 						<h6 class="text-center mt-3">Escoja las fechas en las que se aplicará este horario</h6>
 						<div class="row d-flex justify-content-center align-items-center mt-3 mb-3">
-							<input type="date" id="fechaIniPrg" class="form-control col-3" placeholder="Fecha de inicio">
-							<input type="date" id="fechaFinPrg" class="form-control col-3 ml-1" placeholder="Fecha de fin">
+							<input type="date" id="fechaIniPrg" data-valida="fecha" class="form-control col-3 inputs3" placeholder="Fecha de inicio">
+							<input type="date" id="fechaFinPrg" data-valida="fecha" class="form-control col-3 ml-1 inputs3" placeholder="Fecha de fin">
 						</div>
 						<h6 class="text-center mt-3">Guía asignado a esta ruta</h6>
 						<div class="row d-flex justify-content-center align-items-center mt-3">
-							<select class="form-select-lg custom-select col-3" id="sel-guia" aria-label="Default select example">
-								<option selected>Seleccione al guía</option>
+							<select class="form-select-lg custom-select col-3 inputs3" data-valida="select" id="sel-guia" aria-label="Default select example">
+								<option selected value="">Seleccione al guía</option>
 							</select>
 						</div>
 						<h6 class="text-center mt-3">Escoja las horas ofertadas para los días seleccionados</h6>
 						<div class="row d-flex justify-content-center align-items-center mt-3 mb-3">
-							<input type="time" id="horaDia" class="form-control col-3" placeholder="Hora del tour">
+							<input type="time" id="horaDia" data-valida="nombre" class="form-control col-3 inputs3" placeholder="Hora del tour">
 							<button type="button" onclick="addHour()" class="btn btn-custom ml-1">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-plus" viewbox="0 0 16 16">
 									<path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
 									<path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4"/>
 								</svg>
 							</button>
-							<button type="button" onclick="clearForm()" class="btn btn-custom ml-1">
+							<button type="button" id="cleanRuta" class="btn btn-custom ml-1">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewbox="0 0 16 16">
 									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
 									<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
@@ -295,7 +295,7 @@
 						Volver
 					</button>
 					<div class="col-3"></div>
-					<button type="button" id="crearRuta" class="btn btn-custom col-2">
+					<button disabled type="button" id="crearRuta" class="btn btn-custom col-2">
 						Crear ruta
 					</button>
 					<div class="col-5"></div>
@@ -315,20 +315,107 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-					<button type="button" class="btn btn-danger deleteBTN">Eliminar</button>
+					<button type="button" onclick="deleteTour()" class="btn btn-danger deleteBTN">Eliminar</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" id="calendarModal" aria-hidden="true" aria-labelledby="calendarModalLabel" tabindex="-1">
+	<div class="modal" id="cambiarGuia" tabindex="-1">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Cambiar guia</h5>
+				</div>
+				<div class="modal-body">
+					<h6 class="text-center mt-3">Guía asignado a esta ruta</h6>
+					<div class="row d-flex justify-content-center align-items-center mt-3">
+						<select data-valida="select" class="form-select-lg custom-select col-8" id="change-guia" aria-label="Default select example">
+							<option selected value="">Seleccione al guía</option>
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-custom" onclick="changeGuia()">Cambiar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="calendarModal" aria-hidden="true" aria-labelledby="calendarModalLabel" tabindex="-2">
 		<div class="modal-dialog modal-dialog-centered modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Cuadrante de XPeriences</h5>
+					<select class="form-select-lg custom-select ml-auto col-5 ml-auto" id="sel-guia-cal" onchange="updateBox(event)" aria-label="Default select example">
+						<option selected value="">Seleccione al guía</option>
+					</select>
 				</div>
 				<div class="modal-body">
 					<div id='calendar'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="cambiosMasivos" aria-hidden="true" aria-labelledby="calendarModalLabel" tabindex="-2">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Cambios masivos de rutas</h5>
+				</div>
+				<div class="modal-body">
+					<form method="post">
+						<h6 class="text-center">Filtros</h6>
+						<div class="row d-flex justify-content-between align-content-center">
+							<div class="col-6">
+								<select data-valida="select" class="form-select-lg custom-select col-12 filtros" id="sel-guia-upd" onchange="updateBox(event)" aria-label="Default select example">
+									<option selected value="">Seleccione al guía</option>
+								</select>
+							</div>
+							<div class="col-6">
+								<select data-valida="select" class="form-select-lg custom-select col-12 mb-3 filtros" onchange="updateBox(event)" id="sel-loc-upd" aria-label="Default select example">
+									<option selected value="">Seleccione la provincia</option>
+								</select>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-6">
+								<input data-valida="fecha" type="date" class="form-control filtros" id="fec_ini_upd" name="fec_ini" onchange="updateBox(event)" required placeholder="Fecha de inicio">
+							</div>
+							<div class="col-6">
+								<input data-valida="fecha" type="date" class="form-control filtros" id="fec_fin_upd" name="fec_fin" onchange="updateBox(event)" required placeholder="Fecha de fin">
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-12">
+								<select data-valida="select" class="form-select-lg custom-select col-12 filtros" onchange="updateBox(event)" id="sel-hora-upd" aria-label="Default select example">
+									<option selected value="">Seleccione la hora</option>
+								</select>
+							</div>
+						</div>
+						<h6 class="text-center">Cambios</h6>
+						<select data-valida="select" class="form-select-lg custom-select col-12 mb-3 masivos" id="sel-upd-field" onchange="newFields()" aria-label="Default select example">
+							<option selected value="">Seleccione el campo a cambiar</option>
+							<option value="hora">Hora</option>
+							<option value="guia">Guia</option>
+						</select>
+						<div class="col-12 mb-4" style="display:none;" id="new-fec">
+							<select data-valida="select" class="form-select-lg custom-select col-12 masivos" id="sel-new-guia" onchange="updateBox(event)" aria-label="Default select example">
+								<option selected value="">Seleccione al guía</option>
+							</select>
+						</div>
+						<div class="col-12 mb-4" style="display:none;" id="new-hora">
+							<input data-valida="nombre" type="time" class="form-control masivos" id="new-hora-data" onchange="updateBox(event)" required placeholder="Fecha de fin">
+						</div>
+						<div class="box-container">
+							<ul id="toursAvalaible" class="connectedSortable"></ul>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+					<button disabled type="button" id="btn-chg" class="btn btn-custom" onclick="updateTours()">Cambiar</button>
 				</div>
 			</div>
 		</div>

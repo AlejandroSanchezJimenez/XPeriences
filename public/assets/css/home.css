@@ -6,22 +6,27 @@ body {
 }
 
 .titulo {
-    font-size: 5rem;
+    font-size: 4em;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .subtitulo {
-    font-size: 2.5rem;
+    font-size: 2em;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .seccion {
-    font-size: 1rem;
+    font-size: 1.5em;
     font-weight: bold;
 }
 
+.textobase {
+    font-size: 1.3em;
+}
+
 .navbar {
-    height: 5vh;
+    height: 4rem;
+    z-index: 999;
 }
 
 .main {
@@ -78,6 +83,7 @@ footer {
     margin: 0;
     padding: 0;
 }
+
 
 
 .busquedaPan {
@@ -137,7 +143,8 @@ footer {
 }
 
 #sortable1,
-#sortable2 {
+#sortable2,
+#toursAvalaible {
     border: 1px solid #eee;
     width: 142px;
     min-height: 200px;
@@ -150,7 +157,8 @@ footer {
 }
 
 #sortable1 li,
-#sortable2 li {
+#sortable2 li,
+#toursAvailable li {
     margin: 0 5px 5px 5px;
     padding: 5px;
     font-size: 1.2em;
@@ -283,7 +291,7 @@ footer {
 
 #valorar .clasificacion label,
 #filtros .clasificacion label {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 #valorar label:hover,
@@ -317,6 +325,10 @@ footer {
 .overlay img {
     max-width: 80%;
     max-height: 80%;
+}
+
+.clonedTemplate {
+    box-shadow: 2px 2px 4px 1px gray;
 }
 
 .jello-horizontal {
@@ -415,5 +427,51 @@ footer {
 .formSearch button {
     width: 10rem;
     height: 3rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
+}
+
+.perfil-cal {
+    display: none;
+    height: auto;
+}
+
+.valido {
+    border-color: green;
+}
+
+.invalido {
+    border-color: red;
+}
+
+@media (max-width: 400px) {
+    .titulo {
+        font-size: 2em;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .subtitulo {
+        font-size: 1em;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .seccion {
+        font-size: 0.5em;
+        font-weight: bold;
+    }
+
+    .textobase {
+        font-size: 1px;
+    }
+
+    .sec-lan {
+        width: 20%;
+    }
+
+    .carrusel {
+        height: 80vh;
+    }
+
+    .miguitas {
+        display: none;
+    }
 }

@@ -21,26 +21,42 @@ class TourRepository extends ServiceEntityRepository
         parent::__construct($registry, Tour::class);
     }
 
-   /**
-    * @return Tour[] Returns an array of Tour objects
-    */
-   public function findOrderByFecha(): array
-   {
-       return $this->createQueryBuilder('t')
-       ->where('t.Fecha > :currentDate')
-       ->setParameter('currentDate', new \DateTime())
-       ->orderBy('t.Fecha', 'ASC') // Puedes cambiar 'ASC' a 'DESC' según tus necesidades
-       ->getQuery()
-       ->getResult();
-   }
+    /**
+     * @return Tour[] Returns an array of Tour objects
+     */
+    public function findOrderByFecha(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.Fecha > :currentDate')
+            ->setParameter('currentDate', new \DateTime())
+            ->orderBy('t.Fecha', 'ASC') // Puedes cambiar 'ASC' a 'DESC' según tus necesidades
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Tour
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findHorasByGuia($id)
+    {
+        $entityManager = $this->registry->getManager();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('DISTINCT(t.hora)')
+                     ->from(Tour::class, 't')
+                     ->where('t.guia_id = :guiaId')
+                     ->setParameter('guiaId', $id);
+
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    public function remove(Tour $res)
+    {
+        return $this->createQueryBuilder('u')
+            ->delete(Tour::class, 'u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $res->getId())
+            ->getQuery()
+            ->execute();
+    }
 }

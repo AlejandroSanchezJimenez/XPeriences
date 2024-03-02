@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+	<div class="overlay" id="overlay" style="display:none;">
+		<img class="jello-horizontal" src="{{asset('media/logo.png')}}" width="50px">
+	</div>
 	<section class="mb-5 miguitas">
 		<div class="col-12 bg-routing py-3 pl-5 mr-5 d-flex justify-content-around align-content-center">
-			<div class="col-6">
+			<div class="col-lg-6 col-sm-12">
 				<a class="link-custom" href="/">
 					<h5>Inicio</a>
 					>
@@ -11,15 +14,15 @@
 					</h5>
 				</a>
 			</div>
-			<div class="col-6 ml-auto">
-				<h5 id="wlc-user" class="ml-auto" data-roles={{ app.user.roles | json_encode }} data-id={{app.user.id}}>Bienvenido
+			<div class="col-lg-6 col-sm-12 ml-auto">
+				<h5 id="wlc-user" class="ml-auto" data-roles={{ app.user.roles | json_encode }} data-id={{app.user.id}}>Bienvenido:
 					{{app.user.email}}</h5>
 			</div>
 		</div>
 	</section>
 	<section class="mx-5">
 		<div class="row">
-			<div class="col-3">
+			<div class="col-lg-3 col-sm-12">
 				<ul class="nav flex-column">
 					<li class="nav-item">
 						<a class="nav-link active" id="prox" onclick='changeActive(this)' aria-current="page" href="#" active>Próximos viajes</a>
@@ -27,9 +30,15 @@
 					<li class="nav-item">
 						<a class="nav-link" id="before" href="#" onclick='changeActive(this)'>Viajes anteriores</a>
 					</li>
+					{% if "ROLE_GUIA" in app.user.roles %}
+						<li class="nav-item">
+							<a class="nav-link" id="cal" href="#" onclick='changeActive(this)'>Mi calendario</a>
+						</li>
+					{% endif %}
 				</ul>
 			</div>
-			<div class="col-9" id="res-container">
+			<div class="col-lg-9 col-sm-12" id="res-container">
+				<div id='calendar' class="perfil-cal"></div>
 				<div id="empty" style="display: none;" class="row col-12 bg-routing mb-3 justify-content-center align-items-center tours p-1">
 					<img id="foto" src="{{asset('media/coliseo.png')}}" width="12%" height="12%" alt="Tour Image">
 					<h5 class="col-12 text-center">Este coliseo está vacio</h5>
@@ -89,7 +98,6 @@
 				<div class="modal-body" id="body-reserva"></div>
 				<div class="modal-footer d-flex justify-content-around align-content-between">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-					<button type="button" class="btn btn-custom" id="newValoracion" onclick="" form="ticket" data-id="{{app.user.id}}">Guardar</button>
 				</div>
 			</div>
 		</div>
@@ -118,55 +126,48 @@
 					</form>
 					<div class="modal-footer d-flex justify-content-around align-content-between">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-						<button type="button" class="btn btn-custom" id="newValoracion" onclick="addInf()" form="ticket" data-id="{{app.user.id}}">Guardar</button>
+						<button type="button" class="btn btn-custom" id="newValoracion" onclick="addInf()" data-id="{{app.user.id}}">Guardar</button>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div class="modal" id="confirmModal" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Cancelar el tour</h5>
-					</div>
-					<div class="modal-body">
-						<p>Esta acción será definitiva, una vez cancelado, su reserva a este tour no volverá a aparecer</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-						<button type="button" class="btn btn-danger deleteBTN" onclick="deleteReserva()">Eliminar</button>
-					</div>
+	<div class="modal" id="confirmModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Cancelar el tour</h5>
 				</div>
-			</div>
-		</div>
-
-		<div class="modal" id="editReserva" tabindex="-1">
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-				<div class="modal-content">
-					<form id="ticket">
-						<div class="modal-header">
-							<h5 class="modal-title">Resumen de su reserva</h5>
-						</div>
-						<div class="modal-body">
-							<p id="tour-tit"></p>
-							<p id="tour-fec"></p>
-							<p id="tour-hour"></p>
-							<input class="form-control" min="1" id="apuntados" type="number" placeholder="Apuntados a la reserva" required></input>
-					</form>
+				<div class="modal-body">
+					<p>Esta acción será definitiva, una vez cancelado, su reserva a este tour no volverá a aparecer</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-					<button type="button" class="btn btn-custom" id="newReserva" form="ticket" data-id={{app.user.id}}>Realizar reserva</button>
+					<button type="button" class="btn btn-danger deleteBTN" onclick="deleteReserva()">Eliminar</button>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div class="overlay" id="overlay" style="display:none;">
-			<img class="jello-horizontal" src="{{asset('media/logo.png')}}" width="50px">
+	<div class="modal" id="editReserva" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
+			<div class="modal-content">
+				<form id="ticket">
+					<div class="modal-header">
+						<h5 class="modal-title">Edita los asistentes al tour</h5>
+					</div>
+					<div class="modal-body">
+						<input class="form-control" min="1" id="apuntadosInp" type="number" placeholder="Apuntados a la reserva" required></input>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" onclick="updateReserva()" class="btn btn-custom" id="newReserva" data-id={{app.user.id}}>Actualizar reserva</button>
+			</div>
 		</div>
-
-		{% block javascripts %}
-			{{parent()}}
-		{% endblock %}
+	</div>
+	{% block javascripts %}
+		{{parent()}}
 	{% endblock %}
+{% endblock %}

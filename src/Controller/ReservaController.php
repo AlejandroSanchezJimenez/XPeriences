@@ -91,4 +91,28 @@ class ReservaController extends AbstractController
 
         return $this->json(['message' => 'Reserva eliminada'], 204);
     }
+
+    #[Route('/reserva/api/edit/{id}', name: 'app_update_reserva_api')]
+    public function updateReserva(Request $request, $id, ReservaRepository $tourRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // Obtener el tour existente
+        $tour = $tourRepository->find($id);
+
+        // Verificar si el tour existe
+        if (!$tour) {
+            return $this->json(['message' => 'Reserva no encontrada'], Response::HTTP_NOT_FOUND);
+        }
+
+        $tour->setApuntados($data['apuntados']);
+
+        // Puedes agregar más campos para actualizar según tus necesidades
+
+        // Persistir los cambios en la base de datos
+        $entityManager->persist($tour);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Reserva actualizada correctamente'], Response::HTTP_OK);
+    }
 }
