@@ -1,5 +1,20 @@
-//Declaraciones de variables
+// == Índice == 
+// Ctrl + G y añades la linea para ir directamente a la funcionalidad deseada
 
+// Variables                        @linea6
+// Registro                         @linea150
+// Inicializar mapas                @linea190
+// Nuevo item                       @linea294
+// Sortable de items                @linea410
+// Nueva ruta                       @linea513
+// Mostrar tours                    @linea598
+// Inicializar calendario           @linea807
+// Mostrar reservas                 @linea1058
+// Actualizar caja de cambio masivo @linea1428
+// Actualizar reservas              @linea1529
+// Validador                        @linea1576
+
+//Declaraciones de variables
 var localidades = []
 var fotoGrupo = "";
 var imagebase64 = "";
@@ -1112,7 +1127,11 @@ function rellenarReservas() {
                         if ($('#wlc-user').attr('data-roles').includes('ROLE_GUIA')) {
                             // Oculta el botón de cancelación y configura el botón de editar
                             clonedTemplate.find('#cancel').hide();
-                            clonedTemplate.find('#edit').text('Pasar lista').attr('href', '#lista').attr('data-res', elemento.reservas).attr('onclick', 'saveId(this)');
+                            if (elemento.apuntados!=0) {
+                                clonedTemplate.find('#edit').text('Pasar lista').attr('href', '#lista').attr('data-res', elemento.reservas).attr('onclick', 'saveId(this)');
+                            } else {
+                                clonedTemplate.find('#edit').text('Pasar lista').attr('href', '#lista').attr('data-res', elemento.reservas).attr('onclick', 'saveId(this)').attr('disabled','true');
+                            }
                         } else {
                             // Configura el botón de cancelación y el botón de editar
                             clonedTemplate.find('#cancel').attr('data-id', elemento.id);
@@ -1447,7 +1466,7 @@ function updateBox(event) {
     $.ajax({
         url: 'https://localhost:8000/tours/api', // URL de la API
         type: 'GET', // Método HTTP GET
-        dataType: 'json', // Tipo de datos esperados en la respuesta (puedes cambiarlo según el tipo de datos que esperas)
+        dataType: 'json',
         success: function (data) {
             data = $.grep(data, function (evento) {
                 var eventoDate = evento.fecha && moment(evento.fecha.date).format('YYYY-MM-DD');
@@ -1562,59 +1581,57 @@ $('#apuntados').on('change', function () {
 });
 
 $('input, textarea, select').on('change', function () {
-    if (window.location.href == '/rutas') {
-        // Validar el input actual
-        $('#ruta-1')[0].validaOneByOne(this);
-        $('#diahoraForm')[0].validaOneByOne(this);
+    // Validar el input actual
+    $('#ruta-1')[0].validaOneByOne(this);
+    $('#diahoraForm')[0].validaOneByOne(this);
 
-        // Si el input actual es '#ini-ruta', validar '#latitudIni' y '#longitudIni' después de 2 segundos
-        if (this.id == 'ini-ruta') {
-            setTimeout(function () {
-                $('#ruta-1')[0].validaOneByOne($('#latitudIni')[0]);
-                $('#ruta-1')[0].validaOneByOne($('#longitudIni')[0]);
-            }, 2000);
-        }
+    // Si el input actual es '#ini-ruta', validar '#latitudIni' y '#longitudIni' después de 2 segundos
+    if (this.id == 'ini-ruta') {
+        setTimeout(function () {
+            $('#ruta-1')[0].validaOneByOne($('#latitudIni')[0]);
+            $('#ruta-1')[0].validaOneByOne($('#longitudIni')[0]);
+        }, 2000);
+    }
 
-        // Verificar si todos los elementos dentro de '#ruta-1' tienen la clase 'active'
-        var todosActivos = $('#ruta-1').find('input, select, textarea').toArray().every(function (elemento) {
-            return $(elemento).hasClass('valido');
-        });
+    // Verificar si todos los elementos dentro de '#ruta-1' tienen la clase 'active'
+    var todosActivos = $('#ruta-1').find('input, select, textarea').toArray().every(function (elemento) {
+        return $(elemento).hasClass('valido');
+    });
 
-        // Si todos los elementos son activos, quitar el atributo 'disabled' de '#ruta-1-sig'
-        if (todosActivos) {
-            $('#ruta-1-sig').removeAttr('disabled');
-        } else {
-            $('#ruta-1-sig').attr('disabled', 'true');
-        }
+    // Si todos los elementos son activos, quitar el atributo 'disabled' de '#ruta-1-sig'
+    if (todosActivos) {
+        $('#ruta-1-sig').removeAttr('disabled');
+    } else {
+        $('#ruta-1-sig').attr('disabled', 'true');
+    }
 
-        var checkselec = $('#inp-dias').find('input:checked').length > 0;
-        var todosActivosR2 = $('#diahoraForm').find('.inputs3').toArray().every(function (elemento) {
-            return $(elemento).hasClass('valido');
-        });
+    var checkselec = $('#inp-dias').find('input:checked').length > 0;
+    var todosActivosR2 = $('#diahoraForm').find('.inputs3').toArray().every(function (elemento) {
+        return $(elemento).hasClass('valido');
+    });
 
-        if (checkselec && todosActivosR2) {
-            $('#crearRuta').removeAttr('disabled');
-        } else {
-            $('#crearRuta').attr('disabled', 'true');
-        }
+    if (checkselec && todosActivosR2) {
+        $('#crearRuta').removeAttr('disabled');
+    } else {
+        $('#crearRuta').attr('disabled', 'true');
+    }
 
-        var filtros = $('.filtros').toArray().some(function (elemento) {
-            return $(elemento).hasClass('invalido');
-        });
+    var filtros = $('.filtros').toArray().some(function (elemento) {
+        return $(elemento).hasClass('invalido');
+    });
 
-        var todosActivosMasivos = $('.masivos:visible').toArray().every(function (elemento) {
-            return $(elemento).hasClass('valido');
-        });
+    var todosActivosMasivos = $('.masivos:visible').toArray().every(function (elemento) {
+        return $(elemento).hasClass('valido');
+    });
 
-        console.log(filtros)
-        console.log(todosActivosMasivos)
-        if (!filtros && todosActivosMasivos) {
-            console.log('hola')
-            $('#btn-chg').prop('disabled', false);
-        } else {
-            console.log('adios')
-            $('#btn-chg').prop('disabled', true);
-        }
+    console.log(filtros)
+    console.log(todosActivosMasivos)
+    if (!filtros && todosActivosMasivos) {
+        console.log('hola')
+        $('#btn-chg').prop('disabled', false);
+    } else {
+        console.log('adios')
+        $('#btn-chg').prop('disabled', true);
     }
 });
 
